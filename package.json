@@ -1,6 +1,10 @@
 {
   "name": "devon4ng-library",
   "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devonfw/devon4ng-library.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
