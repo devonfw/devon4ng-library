@@ -1,8 +1,10 @@
 import { Injectable, Optional } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
-import * as Hash from 'object-hash';
 import { CacheServiceConfig, CacheConfig } from './models/cache-config.class';
 import { Cache, CacheEntry } from './models';
+
+// NOTE: @types/object-hash not working to build libarary
+const Hash: any = require('object-hash');
 
 @Injectable({
   providedIn: 'root',

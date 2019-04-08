@@ -6,9 +6,10 @@ import {
 } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CacheServiceConfig } from './models/cache-config.class';
+import { CacheComponent } from './cache.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [CacheComponent],
   imports: [HttpClientModule],
   exports: [],
 })
