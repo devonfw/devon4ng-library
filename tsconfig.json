@@ -17,6 +17,16 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@devon4ng/cache": [
+        "dist/devon4ng/cache",
+        "dist/devon4ng/cache"
+      ],
+      "@devon4ng/cache/*": [
+        "dist/devon4ng/cache/*",
+        "dist/devon4ng/cache/*"
+      ]
+    }
   }
 }
