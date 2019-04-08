@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
 
-== Libary catalogue
+== Library catalogue
 
 This repository includes the following devon4ng libraries.
 
