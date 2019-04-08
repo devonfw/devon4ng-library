@@ -4,8 +4,8 @@
  * @export CacheConfig
  */
 export interface CacheConfig {
-  maxCacheAge: number;
-  urlRegExp: string | RegExp;
+  maxCacheAge?: number;
+  urlRegExp?: string | RegExp;
 }
 
 /**

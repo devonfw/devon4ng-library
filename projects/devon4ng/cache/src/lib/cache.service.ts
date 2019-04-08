@@ -16,8 +16,12 @@ export class CacheService implements Cache, CacheConfig {
 
   constructor(@Optional() config: CacheServiceConfig) {
     if (config) {
-      this.maxCacheAge = config.maxCacheAge;
-      this.urlRegExp = config.urlRegExp;
+      if (config.maxCacheAge) {
+        this.maxCacheAge = config.maxCacheAge;
+      }
+      if (config.urlRegExp) {
+        this.urlRegExp = config.urlRegExp;
+      }
     }
   }
 

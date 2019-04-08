@@ -1,0 +1,9 @@
+= devon4ng library
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+
+== Libary catalogue
+
+This repository includes the following devon4ng libraries.
+
+- link:projects\devon4ng\cache\README.asciidoc[Cache Module]
