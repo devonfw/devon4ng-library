@@ -14,6 +14,6 @@ export interface CacheConfig {
  * @export CacheServiceConfig
  */
 export abstract class CacheServiceConfig implements CacheConfig {
-  maxCacheAge: number;
-  urlRegExp: string | RegExp;
+  maxCacheAge?: number;
+  urlRegExp?: string | RegExp;
 }

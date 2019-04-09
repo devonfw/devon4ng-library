@@ -41,3 +41,5 @@ The configuration object defines the following two parameters:
 
 - `maxCacheAge`: Age in milliseconds. After that the cache entry will be developed. By default `1800000` or 30 minutes.
 - `urlRegExp`: Regular expression as `string` or `RegExp` object that defines which URLs are going to be cached. By default any URL that contains `http`, that is **all the URLs**.
+
+Both parameters are optional, so you could set up only one.
