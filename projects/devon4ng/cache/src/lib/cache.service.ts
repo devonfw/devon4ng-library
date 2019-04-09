@@ -3,7 +3,7 @@ import { HttpRequest, HttpResponse } from '@angular/common/http';
 import { CacheServiceConfig, CacheConfig } from './models/cache-config.class';
 import { Cache, CacheEntry } from './models';
 
-// NOTE: @types/object-hash not working to build libarary
+// NOTE: @types/object-hash not working to build library
 const Hash: any = require('object-hash');
 
 @Injectable({

@@ -8,10 +8,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CacheServiceConfig } from './models/cache-config.class';
 import { CacheInterceptorService } from './interceptor/cache-interceptor.service';
 import { CacheService } from './cache.service';
-import { CacheComponent } from './cache.component';
 
 @NgModule({
-  declarations: [CacheComponent],
+  declarations: [],
   imports: [HttpClientModule],
   providers: [
     CacheService,
