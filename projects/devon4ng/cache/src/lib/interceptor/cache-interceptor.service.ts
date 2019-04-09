@@ -12,7 +12,7 @@ import { CacheService } from '../cache.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CachingInterceptorService implements HttpInterceptor {
+export class CacheInterceptorService implements HttpInterceptor {
   constructor(private cache: CacheService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
@@ -42,7 +42,10 @@ export class CachingInterceptorService implements HttpInterceptor {
 
   private isRequestCachable(req: HttpRequest<any>): boolean {
     return (
-      req.method !== 'DELETE' && req.url.match(this.cache.urlRegExp).length > 0
+      req.method !== 'DELETE' &&
+      (req.url.match(this.cache.urlRegExp)
+        ? req.url.match(this.cache.urlRegExp).length > 0
+        : false)
     );
   }
 }

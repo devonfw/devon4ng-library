@@ -4,13 +4,23 @@ import {
   Optional,
   SkipSelf,
 } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CacheServiceConfig } from './models/cache-config.class';
+import { CacheInterceptorService } from './interceptor/cache-interceptor.service';
+import { CacheService } from './cache.service';
 import { CacheComponent } from './cache.component';
 
 @NgModule({
   declarations: [CacheComponent],
   imports: [HttpClientModule],
+  providers: [
+    CacheService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptorService,
+      multi: true,
+    },
+  ],
   exports: [],
 })
 export class CacheModule {
