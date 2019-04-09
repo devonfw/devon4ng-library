@@ -5,13 +5,13 @@ Use this devon4ng Angular module when you want to cache requests to server. You 
 ## Installation
 
 ```bash
-$ npm i @devon4ng/cache
+$ npm i object-hash @devon4ng/cache
 ```
 
 Or you can use **yarn:**
 
 ```bash
-$ yarn add @devon4ng/cache
+$ yarn add object-hash @devon4ng/cache
 ```
 
 ## Usage
