@@ -1,42 +1,41 @@
-=== Cache Module
-Use this Angular module when you want to cache requests to server. 
+# Cache Module
 
-==== Installation 
+Use this devon4ng Angular module when you want to cache requests to server. You may configure it to store in cache only the requests you need and to set the duration you want.
 
-[source, bash]
-----
+## Installation
+
+```bash
 $ npm i @devon4ng/cache
-----
+```
 
 Or you can use **yarn:**
-[source, bash]
-----
-$ yarn add @devon4ng/cache
-----
 
-==== Usage
+```bash
+$ yarn add @devon4ng/cache
+```
+
+## Usage
+
 Import the dependency in your `app.module.ts`:
 
-[source, typescript]
-----
+```typescript
 import { CacheModule } from '@devon4ng/cache';
-----
+```
 
 Import and configure it in the `@NgModule` imports section:
 
-[source, typescript]
-----
+```typescript
 @NgModule({
   ...
   imports: [
     ...otherModules,
     CacheModule.forRoot({
       maxCacheAge: 1800000, // number
-      urlRegExp: new RegExp('http', 'g').toString(); // RegExp object or string 
+      urlRegExp: new RegExp('http', 'g').toString(); // RegExp object or string
     }),
   ]
 })
-----
+```
 
 The configuration object defines the following two parameters:
 
