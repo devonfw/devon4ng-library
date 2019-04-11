@@ -1,3 +1,20 @@
+:toc: macro
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+toc::[]
+:idprefix:
+:idseparator: -
+:reproducible:
+:source-highlighter: rouge
+:listing-caption: Listing
+
 = devon4ng library
 
 This project was generated with https://github.com/angular/angular-cli[Angular CLI] version 7.3.6. It contains the devon4ng libraries. 
@@ -18,7 +35,9 @@ Please follow our link:.github/CONTRIBUTING_GUIDE.asciidoc[Contributing Guide], 
 
 [source, bash]
 ----
-$ ng generate library "library-name" --prefix="library-prefix-wanted"
+$ ng generate library @devon4ng/library-name --prefix library-prefix-wanted 
 ----
+
+NOTE: Prefix is optional. 
 
 After reviewing this PR the devonfw Core Team will publish the NPM package in case the library maintains the expected quality level.
