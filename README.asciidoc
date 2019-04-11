@@ -27,7 +27,7 @@ This repository includes the following devon4ng libraries.
 
 == Project Requirements
 
-In order to use these libraries your project must use at least Angular 7 in order to  ensure the library will work as expected. 
+In order to use these libraries your project must use at least **Angular 7** in order to ensure the library will work as expected. 
 
 == How to contribute
 
