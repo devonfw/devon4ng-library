@@ -37,6 +37,41 @@
           }
         }
       }
+    },
+    "@devon4ng/authorization": {
+      "root": "projects/devon4ng/authorization",
+      "sourceRoot": "projects/devon4ng/authorization/src",
+      "projectType": "library",
+      "prefix": "daon",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/devon4ng/authorization/tsconfig.lib.json",
+            "project": "projects/devon4ng/authorization/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/devon4ng/authorization/src/test.ts",
+            "tsConfig": "projects/devon4ng/authorization/tsconfig.spec.json",
+            "karmaConfig": "projects/devon4ng/authorization/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/devon4ng/authorization/tsconfig.lib.json",
+              "projects/devon4ng/authorization/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "@devon4ng/cache"
