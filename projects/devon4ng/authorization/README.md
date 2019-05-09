@@ -1,6 +1,6 @@
 # Authorization Module
 
-This `devon4ng` Angular module allows you to configure what authorization rights (if any) are required to access your routes.
+This `devon4ng` Angular module adds rights-based authorization to your Angular app. Eager to see how it works? Go to a [Stackblitz demo](https://stackblitz.com/github/mmatczak/devon4ng-authorization-demo).
 
 ## Installation
 
@@ -16,16 +16,19 @@ $ yarn add @devon4ng/authorization
 
 ## Usage
 
+This`devon4ng` Authorization Module mainly focuses on protecting your routes so that they can only be accessed by authorized users (having specific rights).
+
 #### 1. Configure the router
 
-This `devon4ng` Authorization Module, `DevonfwAuthorizationModule`, depends on the Angular's `RouterModule`, so configure your router first - if you haven't done it yet :), e.g.:
+The starting point when setting up this `devon4ng` Authorization Module is Angular router with routes configured. So let's configure the router first - if you haven't done it yet :), e.g.:
 
 ```ts
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {Dialog1Component} from './components/dialog1/dialog1.component';
-import {Dialog2Component} from './components/dialog2/dialog2.component';
+import {Dialog1Component} from './components/dialog1.component';
+import {Dialog2Component} from './components/dialog2.component';
+import {Dialog3Component} from './components/dialog3.component';
 
 const routes: Routes = [
   {
@@ -36,17 +39,27 @@ const routes: Routes = [
     path: 'dialog2',
     component: Dialog2Component
   },
+  {
+    path: 'dialog3',
+    component: Dialog3Component
+  },
   {path: '', pathMatch: 'full', redirectTo: '/dialog1'}
 ];
 
 @NgModule({
+  declarations: [
+    AppComponent,
+    Dialog1Component,
+    Dialog2Component,
+    Dialog3Component
+  ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes)
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 #### 2. Import `DevonfwAuthorizationModule.forRoot()`:
@@ -69,7 +82,7 @@ const routes = ...
 export class AppModule { }
 ```
 
-#### 3. Configure what access rights require your routes:
+#### 3. Configure rights needed to access your routes:
 
 ```ts
 import {AuthorizedRoutes} from '@devon4ng/authorization';
@@ -82,12 +95,17 @@ const routes: AuthorizedRoutes<Right> = [
   {
     path: 'dialog1',
     component: Dialog1Component,
-    authorizeForRight: Right.User
+    permitAll: true
   },
   {
     path: 'dialog2',
     component: Dialog2Component,
-    permitAll: true
+    authorizeForRight: Right.User
+  },
+  {
+    path: 'dialog3',
+    component: Dialog3Component,
+    authorizeForRight: Right.Admin
   },
   {path: '', pathMatch: 'full', redirectTo: '/dialog1'}
 ];
@@ -96,12 +114,12 @@ const routes: AuthorizedRoutes<Right> = [
 Please note that in the above code we replaced the type `Routes` with the `AuthorizedRoutes` imported from `@devon4ng/authorization`. In addition to `Routes`' properties, the `AuthorizedRoutes` type
 provides:
 - the `permitAll` property which, if set to `true`, makes a route public
-- the `authorizeForRight` property which makes a route accessible only for users having the right set
-- the `authorizeForRightsOf` property which makes a route accessible only for users having **all** the rights set
+- the `authorizeForRight` property which makes a route accessible only for users having the right provided as value
+- the `authorizeForRightsOf` property which makes a route accessible only for users having **all** the rights provided as an array
 
 #### 4. Set the `AuthorizationGuard` on your routes:
 
-In order for the router to protect your routes (according to the configuration provided above) you need to set the `AuthorizationGuard` on your routes. The easiest way to do it
+In order for the router to protect your routes (according to the configuration provided above) you need to set the `AuthorizationGuard` on your routes (more on router guards [here](https://angular.io/guide/router#milestone-5-route-guards)). The easiest way to do it
 is to make use of the `addAuthorizationGuards` function provided by the `DevonfwAuthorizationModule`: 
 
 ```ts
@@ -134,7 +152,7 @@ If you need more control over on which routes the `AuthorizationGuard` is set, y
 addAuthorizationGuards(router, route => route.path != null && route.component && route.children == null);
 ```
 
-- set the `AuthorizationGuard` manually, in which case we don't need `addAuthorizationGuards` anymore:
+- set the `AuthorizationGuard` manually, in which case you don't need `addAuthorizationGuards` anymore:
 
 ```ts
 import {AuthorizedRoutes, AuthorizationGuard} from '@devon4ng/authorization';
@@ -162,7 +180,7 @@ const routes: AuthorizedRoutes<Right> = [
 
 #### 4. Provide your `IsAuthorized` service:
 
-The last puzzle is to provide a service which can be called by the `AuthorizationGuard` to find out if the current user is authorized for given rights.
+The last piece of the puzzle is to provide a service which can be called by the `AuthorizationGuard` to find out if the current user is authorized for given rights.
 The `DevonfwAuthorizationModule` only provides a dummy service authorizing for any rights requested (`AuthorizedForAnyRight`).
 
 Let's implement our simple `AuthorizationService`:
@@ -170,7 +188,14 @@ Let's implement our simple `AuthorizationService`:
 ```ts
 import {IsAuthorized} from '@devon4ng/authorization';
 import {Observable, of} from 'rxjs';
+import {Injectable} from '@angular/core';
 
+// moved here from the AppModule to avoid a circular dependency
+export enum Right {
+  User, Admin
+}
+
+@Injectable()
 export class AuthorizationService implements IsAuthorized<Right> {
   private userRights = [Right.User]; // get the actual rights from your (authorization) server
 
@@ -212,10 +237,8 @@ export class AppModule {}
 #### 5. Enjoy :)
 
 Now you can try it out! Assuming the `DevonfwAuthorizationModule` was set up like described above you should be able to access
-both `/dialog1` (because in the `AuthorizationService` we set user rights to `Right.User`) and `/dialog2` (because it is configured as a public route).
-
-After you change the `AuthorizationService`'s user right to `Right.Admin`, you will not be able to access the `/dialog1` route.
-This means you will stay at the current route which is not all about user friendliness :) To change this behavior you can configure the `DevonfwAuthorizationModule`
+both `/dialog1` (because it is configured as a public route) and `/dialog2` (because in the `AuthorizationService` we set user rights to `Right.User`).
+Access to `/dialog3` will be denied: you will stay at the current route. This is not all about user friendliness :) To change this behavior you can configure the `DevonfwAuthorizationModule`
 to navigate to some route when the authorization check fails:
 
 ```ts
@@ -242,3 +265,5 @@ export class AppModule {
   ...
 }
 ```
+
+The fully working demo is available on [Github](https://github.com/mmatczak/devon4ng-authorization-demo) and [Stackblitz](https://stackblitz.com/github/mmatczak/devon4ng-authorization-demo).
