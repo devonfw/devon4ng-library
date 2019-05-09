@@ -1,9 +1,26 @@
 {
   "name": "@devon4ng/authorization",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "description": "Adds rights-based authorization to your Angular app's routes",
+  "author": {
+    "name": "devonfw team"
+  },
+  "keywords": [
+    "angular",
+    "router",
+    "security",
+    "authorization"
+  ],
+  "homepage": "https://github.com/devonfw/devon4ng-library/tree/master/projects/devon4ng/authorization",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonfw/devon4ng-library.git"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0",
-    "@angular/router": "^7.2.0"
+    "@angular/router": "^7.2.0",
+    "rxjs": "^6.0.0"
   }
 }
