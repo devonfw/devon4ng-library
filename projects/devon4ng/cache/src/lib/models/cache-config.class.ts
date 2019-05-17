@@ -1,19 +1,9 @@
 /**
- * CacheConfig interface
- *
- * @export CacheConfig
- */
-export interface CacheConfig {
-  maxCacheAge?: number;
-  urlRegExp?: string | RegExp;
-}
-
-/**
  * Configuration class for Cache Service
  *
  * @export CacheServiceConfig
  */
-export abstract class CacheServiceConfig implements CacheConfig {
-  maxCacheAge?: number;
-  urlRegExp?: string | RegExp;
+export class CacheServiceConfig {
+  maxCacheAge ? = 1800000;
+  urlRegExp?: string | RegExp = new RegExp('http.*', 'g').toString();
 }
