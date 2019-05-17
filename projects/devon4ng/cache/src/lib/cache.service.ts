@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
-import { CacheServiceConfig, CacheConfig } from './models/cache-config.class';
+import { CacheServiceConfig } from './models/cache-config.class';
 import { Cache, CacheEntry } from './models';
 
 // NOTE: @types/object-hash not working to build library
@@ -9,10 +9,10 @@ const Hash: any = require('object-hash');
 @Injectable({
   providedIn: 'root',
 })
-export class CacheService implements Cache, CacheConfig {
+export class CacheService implements Cache {
   cacheMap = new Map<string, CacheEntry>();
-  urlRegExp: string | RegExp = new RegExp('http', 'g').toString();
-  maxCacheAge = 1800000;
+  urlRegExp: string | RegExp;
+  maxCacheAge: number;
 
   constructor(@Optional() config: CacheServiceConfig) {
     if (config) {
