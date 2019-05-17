@@ -11,7 +11,7 @@ const Hash: any = require('object-hash');
 })
 export class CacheService implements Cache {
   cacheMap = new Map<string, CacheEntry>();
-  urlRegExp: string | RegExp;
+  urlRegExp: string | string[] | RegExp;
   maxCacheAge: number;
 
   constructor(@Optional() config: CacheServiceConfig) {
