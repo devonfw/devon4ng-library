@@ -31,7 +31,22 @@ Import and configure it in the `@NgModule` imports section:
     ...otherModules,
     CacheModule.forRoot({
       maxCacheAge: 1800000, // number
-      urlRegExp: new RegExp('http', 'g').toString(); // RegExp object or string
+      urlRegExp: new RegExp('http.*', 'g').toString(); // RegExp object or string
+    }),
+  ]
+})
+```
+
+In case you need to define a list of strings instead, you can do the following:
+
+```typescript
+@NgModule({
+  ...
+  imports: [
+    ...otherModules,
+    CacheModule.forRoot({
+      maxCacheAge: 1800000, // number
+      urlRegExp: ['data', 'users']; // strings array
     }),
   ]
 })
@@ -40,6 +55,6 @@ Import and configure it in the `@NgModule` imports section:
 The configuration object defines the following two parameters:
 
 - `maxCacheAge`: Age in milliseconds. After that the cache entry will be developed. By default `1800000` or 30 minutes.
-- `urlRegExp`: Regular expression as `string` or `RegExp` object that defines which URLs are going to be cached. By default any URL that contains `http`, that is **all the URLs**.
+- `urlRegExp`: Regular expression as `string`, `string[]` or `RegExp` object that defines which URLs are going to be cached. By default any URL that contains `http`, that is **all the URLs**.
 
 Both parameters are optional, so you could set up only one.

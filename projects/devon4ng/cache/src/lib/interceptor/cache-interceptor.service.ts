@@ -41,11 +41,18 @@ export class CacheInterceptorService implements HttpInterceptor {
   }
 
   private isRequestCachable(req: HttpRequest<any>): boolean {
-    return (
-      req.method !== 'DELETE' &&
-      (req.url.match(this.cache.urlRegExp)
-        ? req.url.match(this.cache.urlRegExp).length > 0
-        : false)
-    );
+    if (Array.isArray(this.cache.urlRegExp)) {
+      return (
+        req.method !== 'DELETE' &&
+        this.cache.urlRegExp.some((item) => req.url.indexOf(item) > -1)
+      );
+    } else {
+      return (
+        req.method !== 'DELETE' &&
+        (req.url.match(this.cache.urlRegExp)
+          ? req.url.match(this.cache.urlRegExp).length > 0
+          : false)
+      );
+    }
   }
 }

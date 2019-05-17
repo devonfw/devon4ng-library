@@ -5,5 +5,5 @@
  */
 export class CacheServiceConfig {
   maxCacheAge ? = 1800000;
-  urlRegExp?: string | RegExp = new RegExp('http.*', 'g').toString();
+  urlRegExp?: string | string[] | RegExp = new RegExp('http.*', 'g').toString();
 }
