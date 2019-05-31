@@ -17,7 +17,7 @@ toc::[]
 
 = devon4ng library
 
-This project was generated with https://github.com/angular/angular-cli[Angular CLI] version 7.3.6. It contains the devon4ng libraries. 
+This project was generated with https://github.com/angular/angular-cli[Angular CLI] version 7.3.6 and upgraded to Angular 8.0.1. It contains the devon4ng libraries. 
 
 == Library catalogue
 
