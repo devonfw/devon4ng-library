@@ -3,19 +3,24 @@ import { Observable, of } from 'rxjs';
 import { IsAuthorized, isAuthorizedInjectionToken } from '../model/is-authorized';
 import { AuthorizedRoute } from '../model/authorized-route';
 import { catchError, map } from 'rxjs/operators';
-import { AuthorizationModuleConfig, authorizationModuleConfigInjectionToken } from '../model/authorization-module-config';
+import {
+  AuthorizationModuleConfig,
+  authorizationModuleConfigInjectionToken,
+} from '../model/authorization-module-config';
 import { Inject, Injectable } from '@angular/core';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthorizationGuard implements CanActivate {
   constructor(
     private readonly router: Router,
     @Inject(isAuthorizedInjectionToken) private readonly authorization: IsAuthorized<any>,
-    @Inject(authorizationModuleConfigInjectionToken) private readonly config: AuthorizationModuleConfig) {
-  }
+    @Inject(authorizationModuleConfigInjectionToken) private readonly config: AuthorizationModuleConfig
+  ) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
-    : Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentRouteConfig: AuthorizedRoute<any> = route && (route.routeConfig as AuthorizedRoute<any>);
 
     if (currentRouteConfig) {
@@ -24,16 +29,15 @@ export class AuthorizationGuard implements CanActivate {
       }
       const rightsToCheck = getRightsFrom(currentRouteConfig);
       if (rightsToCheck) {
-        return this.authorization.isAuthorizedForRightsOf(rightsToCheck)
-          .pipe(
-            catchError(() => of(false)),
-            map(authorized => {
-              if (!authorized && this.config.urlOnAuthorizationFailure) {
-                return this.router.parseUrl(this.config.urlOnAuthorizationFailure);
-              }
-              return authorized;
-            })
-          );
+        return this.authorization.isAuthorizedForRightsOf(rightsToCheck).pipe(
+          catchError(() => of(false)),
+          map((authorized) => {
+            if (!authorized && this.config.urlOnAuthorizationFailure) {
+              return this.router.parseUrl(this.config.urlOnAuthorizationFailure);
+            }
+            return authorized;
+          })
+        );
       }
     }
 
@@ -44,8 +48,11 @@ export class AuthorizationGuard implements CanActivate {
       const rightsProvided = routeConfig.authorizeForRightsOf && routeConfig.authorizeForRightsOf.length > 0;
 
       // take precedence of rights over a single one
-      return rightsProvided ? routeConfig.authorizeForRightsOf
-        : (singleRightToCheckProvided ? [routeConfig.authorizeForRight] : null);
+      return rightsProvided
+        ? routeConfig.authorizeForRightsOf
+        : singleRightToCheckProvided
+        ? [routeConfig.authorizeForRight]
+        : null;
     }
   }
 }

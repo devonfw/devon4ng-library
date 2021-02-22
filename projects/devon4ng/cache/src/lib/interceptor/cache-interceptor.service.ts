@@ -1,9 +1,4 @@
-import {
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -25,7 +20,7 @@ export class CacheInterceptorService implements HttpInterceptor {
         url: req.urlWithParams,
         method: req.method,
         body: req.body ? req.body : {},
-      }),
+      })
     );
     if (cachedResponse !== null) {
       return of(cachedResponse);
@@ -36,22 +31,17 @@ export class CacheInterceptorService implements HttpInterceptor {
         if (event instanceof HttpResponse) {
           this.cache.put(req, event);
         }
-      }),
+      })
     );
   }
 
   private isRequestCachable(req: HttpRequest<any>): boolean {
     if (Array.isArray(this.cache.urlRegExp)) {
-      return (
-        req.method !== 'DELETE' &&
-        this.cache.urlRegExp.some((item) => req.url.indexOf(item) > -1)
-      );
+      return req.method !== 'DELETE' && this.cache.urlRegExp.some((item) => req.url.indexOf(item) > -1);
     } else {
       return (
         req.method !== 'DELETE' &&
-        (req.url.match(this.cache.urlRegExp)
-          ? req.url.match(this.cache.urlRegExp).length > 0
-          : false)
+        (req.url.match(this.cache.urlRegExp) ? req.url.match(this.cache.urlRegExp).length > 0 : false)
       );
     }
   }

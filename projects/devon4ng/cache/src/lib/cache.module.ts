@@ -1,9 +1,4 @@
-import {
-  NgModule,
-  ModuleWithProviders,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CacheServiceConfig } from './models/cache-config.class';
 import { CacheInterceptorService } from './interceptor/cache-interceptor.service';

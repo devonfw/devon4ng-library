@@ -12,20 +12,19 @@ import { AuthorizationModuleConfig } from './model/authorization-module-config';
 
 @Component({
   selector: 'daon-my-test-app',
-  template: '<router-outlet></router-outlet>'
+  template: '<router-outlet></router-outlet>',
 })
-class MyTestAppComponent {
-}
+class MyTestAppComponent {}
 
 @Component({
   selector: 'daon-my-test-page',
-  template: ''
+  template: '',
 })
-export class MyTestPageComponent {
-}
+export class MyTestPageComponent {}
 
 enum Right {
-  User, Admin
+  User,
+  Admin,
 }
 
 enum Paths {
@@ -33,34 +32,34 @@ enum Paths {
   PUBLIC_PAGE = 'public-test-page',
   PROTECTED_USER_PAGE = 'protected-user-test-page',
   PROTECTED_ADMIN_PAGE = 'protected-admin-test-page',
-  NOT_ACCESSIBLE_PAGE = 'not-accessible-test-page'
+  NOT_ACCESSIBLE_PAGE = 'not-accessible-test-page',
 }
 
 const routes: AuthorizedRoutes<Right> = [
   {
     path: Paths.ACCESS_DENIED,
     component: MyTestPageComponent,
-    permitAll: true
+    permitAll: true,
   },
   {
     path: Paths.PUBLIC_PAGE,
     component: MyTestPageComponent,
-    permitAll: true
+    permitAll: true,
   },
   {
     path: Paths.PROTECTED_USER_PAGE,
     component: MyTestPageComponent,
-    authorizeForRight: Right.User
+    authorizeForRight: Right.User,
   },
   {
     path: Paths.PROTECTED_ADMIN_PAGE,
     component: MyTestPageComponent,
-    authorizeForRightsOf: [Right.User, Right.Admin]
+    authorizeForRightsOf: [Right.User, Right.Admin],
   },
   {
     path: Paths.NOT_ACCESSIBLE_PAGE,
-    component: MyTestPageComponent
-  }
+    component: MyTestPageComponent,
+  },
 ];
 
 describe('DevonfwAuthorizationModule', () => {
@@ -74,7 +73,7 @@ describe('DevonfwAuthorizationModule', () => {
       const publicTestPageUrl = `/${Paths.PUBLIC_PAGE}`;
       // when
       whenNavigateTo([publicTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(publicTestPageUrl);
     }));
 
@@ -83,7 +82,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.PROTECTED_USER_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(protectedTestPageUrl);
     }));
 
@@ -92,7 +91,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.PROTECTED_ADMIN_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(protectedTestPageUrl);
     }));
 
@@ -101,7 +100,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.NOT_ACCESSIBLE_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual('/');
     }));
   });
@@ -113,7 +112,7 @@ describe('DevonfwAuthorizationModule', () => {
       const publicTestPageUrl = `/${Paths.PUBLIC_PAGE}`;
       // when
       whenNavigateTo([publicTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(publicTestPageUrl);
     }));
 
@@ -123,7 +122,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.PROTECTED_USER_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(protectedTestPageUrl);
     }));
 
@@ -133,7 +132,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.PROTECTED_ADMIN_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(protectedTestPageUrl);
     }));
 
@@ -143,7 +142,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.PROTECTED_ADMIN_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual('/');
     }));
 
@@ -153,18 +152,20 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.PROTECTED_ADMIN_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual('/');
     }));
 
     it('redirects to a configured page upon unauthorized access', fakeAsync(() => {
       // given
       const accessDeniedPageUrl = `/${Paths.ACCESS_DENIED}`;
-      configureTestingModule<Right>({urlOnAuthorizationFailure: accessDeniedPageUrl}).forUserHavingRightsOf([Right.User]);
+      configureTestingModule<Right>({
+        urlOnAuthorizationFailure: accessDeniedPageUrl,
+      }).forUserHavingRightsOf([Right.User]);
       const protectedTestPageUrl = `/${Paths.PROTECTED_ADMIN_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual(accessDeniedPageUrl);
     }));
 
@@ -174,7 +175,7 @@ describe('DevonfwAuthorizationModule', () => {
       const protectedTestPageUrl = `/${Paths.NOT_ACCESSIBLE_PAGE}`;
       // when
       whenNavigateTo([protectedTestPageUrl])
-      // then
+        // then
         .thenExpectLocationPathToEqual('/');
     }));
   });
@@ -182,8 +183,8 @@ describe('DevonfwAuthorizationModule', () => {
 
 function whenNavigateTo(commands: any[]) {
   const appComponentFixture = TestBed.createComponent(MyTestAppComponent);
-  const router: Router = TestBed.get(Router);
-  const location: Location = TestBed.get(Location);
+  const router: Router = TestBed.inject(Router);
+  const location: Location = TestBed.inject(Location);
 
   return {
     thenExpectLocationPathToEqual(path: string) {
@@ -197,7 +198,7 @@ function whenNavigateTo(commands: any[]) {
           expect(location.path()).toEqual(path);
         });
       });
-    }
+    },
   };
 }
 
@@ -205,18 +206,20 @@ function configureTestingModule<R>(config?: AuthorizationModuleConfig) {
   function configureTestingModuleProvidingMock(authorizationServiceMock?: IsAuthorized<R>) {
     const testingModuleDefinition: TestModuleMetadata = {
       declarations: [MyTestAppComponent, MyTestPageComponent],
-      imports: [
-        RouterTestingModule.withRoutes(routes),
-        DevonfwAuthorizationModule.forRoot(config)
-      ]
+      imports: [RouterTestingModule.withRoutes(routes), DevonfwAuthorizationModule.forRoot(config)],
     };
 
     if (authorizationServiceMock) {
-      testingModuleDefinition.providers = [{provide: isAuthorizedInjectionToken, useValue: authorizationServiceMock}];
+      testingModuleDefinition.providers = [
+        {
+          provide: isAuthorizedInjectionToken,
+          useValue: authorizationServiceMock,
+        },
+      ];
     }
 
     TestBed.configureTestingModule(testingModuleDefinition);
-    const router: Router = TestBed.get(Router);
+    const router: Router = TestBed.inject(Router);
     addAuthorizationGuards(router);
   }
 
@@ -226,19 +229,16 @@ function configureTestingModule<R>(config?: AuthorizationModuleConfig) {
     },
 
     withFailingAuthorization() {
-      configureTestingModuleProvidingMock(
-        createAuthorizationServiceMock<R>().whichFails());
+      configureTestingModuleProvidingMock(createAuthorizationServiceMock<R>().whichFails());
     },
 
     forUserHavingRightsOf(userRights: R[]) {
-      configureTestingModuleProvidingMock(
-        createAuthorizationServiceMock<R>().forUserHavingRightsOf(userRights));
+      configureTestingModuleProvidingMock(createAuthorizationServiceMock<R>().forUserHavingRightsOf(userRights));
     },
 
     forUnauthorizedUsers() {
-      configureTestingModuleProvidingMock(
-        createAuthorizationServiceMock<R>().forUnauthorizedUsers());
-    }
+      configureTestingModuleProvidingMock(createAuthorizationServiceMock<R>().forUnauthorizedUsers());
+    },
   };
 }
 
@@ -250,13 +250,15 @@ export function createAuthorizationServiceMock<R>() {
           let isAuthorized = true;
 
           if (requiredRights && requiredRights.length > 0) {
-            isAuthorized = requiredRights.reduce((requiredAuthorizationFulfilled, requiredRight) =>
+            isAuthorized = requiredRights.reduce(
+              (requiredAuthorizationFulfilled, requiredRight) =>
                 requiredAuthorizationFulfilled ? (userRights ? userRights.includes(requiredRight) : false) : false,
-              true);
+              true
+            );
           }
 
           return of(isAuthorized);
-        }
+        },
       };
     },
 
@@ -264,7 +266,7 @@ export function createAuthorizationServiceMock<R>() {
       return {
         isAuthorizedForRightsOf(): Observable<boolean> {
           return of(false);
-        }
+        },
       };
     },
 
@@ -272,8 +274,8 @@ export function createAuthorizationServiceMock<R>() {
       return {
         isAuthorizedForRightsOf(): Observable<boolean> {
           return throwError(new Error());
-        }
+        },
       };
-    }
+    },
   };
 }
