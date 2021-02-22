@@ -5,7 +5,7 @@ import { AuthorizationModuleConfig, authorizationModuleConfigInjectionToken } fr
 
 @NgModule()
 export class DevonfwAuthorizationModule {
-  static forRoot(config?: AuthorizationModuleConfig): ModuleWithProviders {
+  static forRoot(config?: AuthorizationModuleConfig): ModuleWithProviders<DevonfwAuthorizationModule> {
     return {
       ngModule: DevonfwAuthorizationModule,
       providers: [

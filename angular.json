@@ -15,7 +15,12 @@
             "tsConfig": "projects/devon4ng/cache/tsconfig.lib.json",
             "project": "projects/devon4ng/cache/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/devon4ng/cache/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -50,7 +55,12 @@
             "tsConfig": "projects/devon4ng/authorization/tsconfig.lib.json",
             "project": "projects/devon4ng/authorization/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/devon4ng/authorization/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
