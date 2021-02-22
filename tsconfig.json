@@ -11,28 +11,13 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
     "paths": {
-      "@devon4ng/cache": [
-        "dist/devon4ng/cache",
-        "dist/devon4ng/cache"
-      ],
-      "@devon4ng/cache/*": [
-        "dist/devon4ng/cache/*",
-        "dist/devon4ng/cache/*"
-      ],
-      "@devon4ng/authorization": [
-        "dist/devon4ng/authorization"
-      ],
-      "@devon4ng/authorization/*": [
-        "dist/devon4ng/authorization/*"
-      ]
+      "@devon4ng/cache": ["dist/devon4ng/cache"],
+      "@devon4ng/cache/*": ["dist/devon4ng/cache/*"],
+      "@devon4ng/authorization": ["dist/devon4ng/authorization"],
+      "@devon4ng/authorization/*": ["dist/devon4ng/authorization/*"]
     }
   }
 }
