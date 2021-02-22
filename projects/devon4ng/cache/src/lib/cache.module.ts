@@ -29,7 +29,7 @@ export class CacheModule {
     }
   }
 
-  static forRoot(config: CacheServiceConfig): ModuleWithProviders {
+  static forRoot(config: CacheServiceConfig): ModuleWithProviders<CacheModule> {
     return {
       ngModule: CacheModule,
       providers: [{ provide: CacheServiceConfig, useValue: config }],
