@@ -1,7 +1,13 @@
 {
   "name": "@devon4ng/cache",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "Add configurable cache request feature to your Angular project",
+  "keywords": [
+    "angular",
+    "request",
+    "cache",
+    "interceptor"
+  ],
   "homepage": "https://github.com/devonfw/devon4ng-library/tree/master/projects/devon4ng/cache",
   "license": "Apache-2.0",
   "repository": {
