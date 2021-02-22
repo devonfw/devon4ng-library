@@ -1,6 +1,6 @@
 {
   "name": "@devon4ng/cache",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "description": "Add configurable cache request feature to your Angular project",
   "keywords": [
     "angular",
