@@ -19,11 +19,13 @@ describe('addAuthorizationGuards', () => {
 
     it('adds a guard to a route having a path and a component set', () => {
       // given
-      const routes: AuthorizedRoutes<any> = [{
-        path: 'some-path',
-        component: MyTestPageComponent,
-        permitAll: true
-      }];
+      const routes: AuthorizedRoutes<any> = [
+        {
+          path: 'some-path',
+          component: MyTestPageComponent,
+          permitAll: true,
+        },
+      ];
       const routerMock = createRouterMockWith(routes);
       // when
       addAuthorizationGuards(routerMock);
@@ -35,12 +37,12 @@ describe('addAuthorizationGuards', () => {
     it('does not add a guard to a route not having a path and a component set', () => {
       // given
       const routes: AuthorizedRoutes<any> = [
-        {path: '', pathMatch: 'full', redirectTo: '/some-path'},
+        { path: '', pathMatch: 'full', redirectTo: '/some-path' },
         {
           path: 'some-path',
           component: MyTestPageComponent,
-          permitAll: true
-        }
+          permitAll: true,
+        },
       ];
       const routerMock = createRouterMockWith(routes);
       // when
@@ -56,9 +58,10 @@ describe('addAuthorizationGuards', () => {
 
     beforeEach(() => {
       treeStructureRoutes = [
-        {path: '', pathMatch: 'full', redirectTo: '/my-app/some-path'},
+        { path: '', pathMatch: 'full', redirectTo: '/my-app/some-path' },
         {
-          path: 'my-app', children: [
+          path: 'my-app',
+          children: [
             {
               path: '', // home
               component: MyTestPageComponent,
@@ -74,9 +77,10 @@ describe('addAuthorizationGuards', () => {
                 {
                   path: 'second-level-2',
                   component: MyTestPageComponent,
-                }]
-            }
-          ]
+                },
+              ],
+            },
+          ],
         },
       ];
     });
@@ -92,16 +96,21 @@ describe('addAuthorizationGuards', () => {
       expect(resultRoutes[1].canActivate).toBeUndefined();
       expect(resultRoutes[1].children[0].canActivate).toContain(AuthorizationGuard, 'my-app has no guard');
       expect(resultRoutes[1].children[1].canActivate).toContain(AuthorizationGuard, 'my-app/first-level has no guard');
-      expect(resultRoutes[1].children[1].children[0].canActivate).toContain(AuthorizationGuard,
-        'my-app/first-level/second-level-1 has no guard');
-      expect(resultRoutes[1].children[1].children[1].canActivate).toContain(AuthorizationGuard,
-        'my-app/first-level/second-level-2 has no guard');
+      expect(resultRoutes[1].children[1].children[0].canActivate).toContain(
+        AuthorizationGuard,
+        'my-app/first-level/second-level-1 has no guard'
+      );
+      expect(resultRoutes[1].children[1].children[1].canActivate).toContain(
+        AuthorizationGuard,
+        'my-app/first-level/second-level-2 has no guard'
+      );
     });
 
     it('adds guards according to provided strategy', () => {
       // given
       const routerMock = createRouterMockWith(treeStructureRoutes);
-      const addGuardWhenPathAndComponentProvidedButNoChildren = route => route.path != null && route.component && route.children == null;
+      const addGuardWhenPathAndComponentProvidedButNoChildren = (route) =>
+        route.path != null && route.component && route.children == null;
       // when
       addAuthorizationGuards(routerMock, addGuardWhenPathAndComponentProvidedButNoChildren);
       // then
@@ -110,10 +119,14 @@ describe('addAuthorizationGuards', () => {
       expect(resultRoutes[1].canActivate).toBeUndefined();
       expect(resultRoutes[1].children[0].canActivate).toContain(AuthorizationGuard, 'my-app has no guard');
       expect(resultRoutes[1].children[1].canActivate).toBeUndefined();
-      expect(resultRoutes[1].children[1].children[0].canActivate).toContain(AuthorizationGuard,
-        'my-app/first-level/second-level-1 has no guard');
-      expect(resultRoutes[1].children[1].children[1].canActivate).toContain(AuthorizationGuard,
-        'my-app/first-level/second-level-2 has no guard');
+      expect(resultRoutes[1].children[1].children[0].canActivate).toContain(
+        AuthorizationGuard,
+        'my-app/first-level/second-level-1 has no guard'
+      );
+      expect(resultRoutes[1].children[1].children[1].canActivate).toContain(
+        AuthorizationGuard,
+        'my-app/first-level/second-level-2 has no guard'
+      );
     });
   });
 });
@@ -121,7 +134,7 @@ describe('addAuthorizationGuards', () => {
 function createRouterMockWith(routes: Routes): ConfigAwareRouter {
   return {
     config: routes,
-    resetConfig: createSpy('resetConfig')
+    resetConfig: createSpy('resetConfig'),
   };
 }
 

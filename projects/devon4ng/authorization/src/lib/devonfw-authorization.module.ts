@@ -1,7 +1,10 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { isAuthorizedInjectionToken } from './model/is-authorized';
 import { AuthorizedForAnyRight } from './service/authorized-for-any-right.service';
-import { AuthorizationModuleConfig, authorizationModuleConfigInjectionToken } from './model/authorization-module-config';
+import {
+  AuthorizationModuleConfig,
+  authorizationModuleConfigInjectionToken,
+} from './model/authorization-module-config';
 
 @NgModule()
 export class DevonfwAuthorizationModule {
@@ -9,9 +12,9 @@ export class DevonfwAuthorizationModule {
     return {
       ngModule: DevonfwAuthorizationModule,
       providers: [
-        {provide: authorizationModuleConfigInjectionToken, useValue: config || {}},
-        {provide: isAuthorizedInjectionToken, useClass: AuthorizedForAnyRight}
-      ]
+        { provide: authorizationModuleConfigInjectionToken, useValue: config || {} },
+        { provide: isAuthorizedInjectionToken, useClass: AuthorizedForAnyRight },
+      ],
     };
   }
 }

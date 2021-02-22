@@ -7,7 +7,7 @@ export function addAuthorizationGuards(router: ConfigAwareRouter, addGuardForRou
   const guardShouldBeAdded = addGuardForRouteFn || ((route: Route) => route.path != null && route.component);
 
   if (router.config) {
-    traverseTree<Route>({children: router.config}, (route) => {
+    traverseTree<Route>({ children: router.config }, (route) => {
       if (guardShouldBeAdded(route)) {
         route.canActivate = route.canActivate || [];
         route.canActivate.push(AuthorizationGuard);
