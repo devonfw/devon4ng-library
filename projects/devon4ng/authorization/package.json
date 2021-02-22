@@ -1,6 +1,6 @@
 {
   "name": "@devon4ng/authorization",
-  "version": "9.0.1",
+  "version": "9.0.0",
   "description": "Adds rights-based authorization to your Angular app's routes",
   "author": {
     "name": "devonfw team"
