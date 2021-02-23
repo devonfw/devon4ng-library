@@ -1,13 +1,13 @@
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Inject, Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { IsAuthorized, isAuthorizedInjectionToken } from '../model/is-authorized';
-import { AuthorizedRoute } from '../model/authorized-route';
 import { catchError, map } from 'rxjs/operators';
 import {
   AuthorizationModuleConfig,
   authorizationModuleConfigInjectionToken,
 } from '../model/authorization-module-config';
-import { Inject, Injectable } from '@angular/core';
+import { AuthorizedRoute } from '../model/authorized-route';
+import { IsAuthorized, isAuthorizedInjectionToken } from '../model/is-authorized';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationGuard implements CanActivate {
@@ -18,8 +18,7 @@ export class AuthorizationGuard implements CanActivate {
   ) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    route: ActivatedRouteSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentRouteConfig: AuthorizedRoute<any> = route && (route.routeConfig as AuthorizedRoute<any>);
 
@@ -27,7 +26,7 @@ export class AuthorizationGuard implements CanActivate {
       if (currentRouteConfig.permitAll) {
         return true;
       }
-      const rightsToCheck = getRightsFrom(currentRouteConfig);
+      const rightsToCheck = this.getRightsFrom(currentRouteConfig);
       if (rightsToCheck) {
         return this.authorization.isAuthorizedForRightsOf(rightsToCheck).pipe(
           catchError(() => of(false)),
@@ -42,17 +41,17 @@ export class AuthorizationGuard implements CanActivate {
     }
 
     return false;
+  }
 
-    function getRightsFrom(routeConfig: AuthorizedRoute<any>): any[] | null {
-      const singleRightToCheckProvided = routeConfig.authorizeForRight != null; // for enum values it can be 0 which is falsy...
-      const rightsProvided = routeConfig.authorizeForRightsOf && routeConfig.authorizeForRightsOf.length > 0;
+  private getRightsFrom(routeConfig: AuthorizedRoute<any>): any[] | null {
+    const singleRightToCheckProvided = routeConfig.authorizeForRight != null; // for enum values it can be 0 which is falsy...
+    const rightsProvided = routeConfig.authorizeForRightsOf && routeConfig.authorizeForRightsOf.length > 0;
 
-      // take precedence of rights over a single one
-      return rightsProvided
-        ? routeConfig.authorizeForRightsOf
-        : singleRightToCheckProvided
-        ? [routeConfig.authorizeForRight]
-        : null;
-    }
+    // take precedence of rights over a single one
+    return rightsProvided
+      ? routeConfig.authorizeForRightsOf
+      : singleRightToCheckProvided
+      ? [routeConfig.authorizeForRight]
+      : null;
   }
 }

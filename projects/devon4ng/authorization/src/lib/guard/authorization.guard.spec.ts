@@ -9,9 +9,8 @@ describe('AuthorizationGuard', () => {
     const guard = new AuthorizationGuard(routerMock, authorizationServiceMock, {});
 
     const routeWithoutConfig: any = {};
-    const state: any = {};
     // when
-    const canActivate = guard.canActivate(routeWithoutConfig, state);
+    const canActivate = guard.canActivate(routeWithoutConfig);
     // then
     expect(canActivate).toBeFalsy();
   });

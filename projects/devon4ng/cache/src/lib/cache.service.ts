@@ -1,10 +1,8 @@
-import { Injectable, Optional } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
-import { CacheServiceConfig } from './models/cache-config.class';
+import { Injectable, Optional } from '@angular/core';
+import * as Hash from 'object-hash';
 import { Cache, CacheEntry } from './models';
-
-// NOTE: @types/object-hash not working to build library
-const Hash: any = require('object-hash');
+import { CacheServiceConfig } from './models/cache-config.class';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +45,9 @@ export class CacheService implements Cache {
   }
 
   createEntryHash(entry: CacheEntry): string {
-    const hash = Hash({
+    // Fixes import issue with object-hash when building library for Angular 11
+    const hashObject = Hash;
+    const hash = hashObject({
       url: entry.url,
       method: entry.method,
       body: entry.body ? entry.body : {},

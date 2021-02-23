@@ -17,7 +17,7 @@ toc::[]
 
 = devon4ng library
 
-This project was generated with https://github.com/angular/angular-cli[Angular CLI] version 7.3.6 and upgraded to Angular 8.0.1. It contains the devon4ng libraries. 
+This project was generated with https://github.com/angular/angular-cli[Angular CLI] version 7.3.6 and upgraded to Angular 11.2.1. It contains the devon4ng libraries. 
 
 == Library catalogue
 
@@ -28,7 +28,10 @@ This repository includes the following devon4ng libraries.
 
 == Project Requirements
 
-In order to use these libraries your project must use at least **Angular 7** in order to ensure the library will work as expected. 
+In order to use these libraries your project must use at least **Angular 7** in order to ensure the library will work as expected. To install **the correct vesion for your Angular project** please refer to the versions in the correspondent npm package page:
+
+  - link:https://www.npmjs.com/package/@devon4ng/cache?activeTab=versions[@devon4ng/cache versions]
+  - link:https://www.npmjs.com/package/@devon4ng/authorization?activeTab=versions[@devon4ng/authorization versions]
 
 == How to contribute
 

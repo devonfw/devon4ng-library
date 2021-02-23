@@ -14,6 +14,8 @@ Or you can use **yarn:**
 $ yarn add object-hash @devon4ng/cache
 ```
 
+To install **the correct vesion for your Angular project** please refer to the [@devon4ng/cache versions](https://www.npmjs.com/package/@devon4ng/cache?activeTab=versions) available.
+
 ## Usage
 
 Import the dependency in your `app.module.ts`:
