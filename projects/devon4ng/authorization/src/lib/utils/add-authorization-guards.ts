@@ -3,7 +3,7 @@ import { AuthorizationGuard } from '../guard/authorization.guard';
 
 export type ConfigAwareRouter = Pick<Router, 'config' | 'resetConfig'>;
 
-export function addAuthorizationGuards(router: ConfigAwareRouter, addGuardForRouteFn?: (route: Route) => boolean) {
+export const addAuthorizationGuards = (router: ConfigAwareRouter, addGuardForRouteFn?: (route: Route) => boolean) => {
   const guardShouldBeAdded = addGuardForRouteFn || ((route: Route) => route.path != null && route.component);
 
   if (router.config) {
@@ -16,13 +16,13 @@ export function addAuthorizationGuards(router: ConfigAwareRouter, addGuardForRou
 
     router.resetConfig(router.config);
   }
-}
+};
 
 interface TreeElement {
   children?: TreeElement[];
 }
 
-function traverseTree<E extends TreeElement>(treeRoot: E, onTreeElementVisitFn: (element: E) => void) {
+const traverseTree = <E extends TreeElement>(treeRoot: E, onTreeElementVisitFn: (element: E) => void) => {
   const stack = [];
   let currentElement = treeRoot;
 
@@ -33,4 +33,4 @@ function traverseTree<E extends TreeElement>(treeRoot: E, onTreeElementVisitFn: 
     }
     currentElement = stack.pop();
   }
-}
+};

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-shadow */
 import { Component } from '@angular/core';
 import { fakeAsync, TestBed, TestModuleMetadata, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -181,13 +183,13 @@ describe('DevonfwAuthorizationModule', () => {
   });
 });
 
-function whenNavigateTo(commands: any[]) {
+const whenNavigateTo = (commands: any[]) => {
   const appComponentFixture = TestBed.createComponent(MyTestAppComponent);
   const router: Router = TestBed.inject(Router);
   const location: Location = TestBed.inject(Location);
 
   return {
-    thenExpectLocationPathToEqual(path: string) {
+    thenExpectLocationPathToEqual: (path: string) => {
       appComponentFixture.ngZone.run(() => {
         // when
         router.navigate(commands);
@@ -200,10 +202,10 @@ function whenNavigateTo(commands: any[]) {
       });
     },
   };
-}
+};
 
-function configureTestingModule<R>(config?: AuthorizationModuleConfig) {
-  function configureTestingModuleProvidingMock(authorizationServiceMock?: IsAuthorized<R>) {
+const configureTestingModule = <R>(config?: AuthorizationModuleConfig) => {
+  const configureTestingModuleProvidingMock = (authorizationServiceMock?: IsAuthorized<R>) => {
     const testingModuleDefinition: TestModuleMetadata = {
       declarations: [MyTestAppComponent, MyTestPageComponent],
       imports: [RouterTestingModule.withRoutes(routes), DevonfwAuthorizationModule.forRoot(config)],
@@ -221,61 +223,49 @@ function configureTestingModule<R>(config?: AuthorizationModuleConfig) {
     TestBed.configureTestingModule(testingModuleDefinition);
     const router: Router = TestBed.inject(Router);
     addAuthorizationGuards(router);
-  }
+  };
 
   return {
-    withDummyAuthorization() {
+    withDummyAuthorization: () => {
       configureTestingModuleProvidingMock();
     },
 
-    withFailingAuthorization() {
+    withFailingAuthorization: () => {
       configureTestingModuleProvidingMock(createAuthorizationServiceMock<R>().whichFails());
     },
 
-    forUserHavingRightsOf(userRights: R[]) {
+    forUserHavingRightsOf: (userRights: R[]) => {
       configureTestingModuleProvidingMock(createAuthorizationServiceMock<R>().forUserHavingRightsOf(userRights));
     },
 
-    forUnauthorizedUsers() {
+    forUnauthorizedUsers: () => {
       configureTestingModuleProvidingMock(createAuthorizationServiceMock<R>().forUnauthorizedUsers());
     },
   };
-}
+};
 
-export function createAuthorizationServiceMock<R>() {
-  return {
-    forUserHavingRightsOf(userRights: R[]): IsAuthorized<R> {
-      return {
-        isAuthorizedForRightsOf(requiredRights: R[]): Observable<boolean> {
-          let isAuthorized = true;
+export const createAuthorizationServiceMock = <R>() => ({
+  forUserHavingRightsOf: (userRights: R[]): IsAuthorized<R> => ({
+    isAuthorizedForRightsOf: (requiredRights: R[]): Observable<boolean> => {
+      let isAuthorized = true;
 
-          if (requiredRights && requiredRights.length > 0) {
-            isAuthorized = requiredRights.reduce(
-              (requiredAuthorizationFulfilled, requiredRight) =>
-                requiredAuthorizationFulfilled ? (userRights ? userRights.includes(requiredRight) : false) : false,
-              true
-            );
-          }
+      if (requiredRights && requiredRights.length > 0) {
+        isAuthorized = requiredRights.reduce(
+          (requiredAuthorizationFulfilled, requiredRight) =>
+            requiredAuthorizationFulfilled ? (userRights ? userRights.includes(requiredRight) : false) : false,
+          true
+        );
+      }
 
-          return of(isAuthorized);
-        },
-      };
+      return of(isAuthorized);
     },
+  }),
 
-    forUnauthorizedUsers(): IsAuthorized<R> {
-      return {
-        isAuthorizedForRightsOf(): Observable<boolean> {
-          return of(false);
-        },
-      };
-    },
+  forUnauthorizedUsers: (): IsAuthorized<R> => ({
+    isAuthorizedForRightsOf: (): Observable<boolean> => of(false),
+  }),
 
-    whichFails(): IsAuthorized<R> {
-      return {
-        isAuthorizedForRightsOf(): Observable<boolean> {
-          return throwError(new Error());
-        },
-      };
-    },
-  };
-}
+  whichFails: (): IsAuthorized<R> => ({
+    isAuthorizedForRightsOf: (): Observable<boolean> => throwError(new Error()),
+  }),
+});
